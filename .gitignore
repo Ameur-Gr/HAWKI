@@ -58,3 +58,4 @@ _docker_production_test
 .devcontainer
 .agents
 skills-lock.json
+google-chrome-stable_current_amd64.deb
