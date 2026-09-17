@@ -104,6 +104,14 @@ return [
             'api_url' => env('OPEN_WEB_UI_API_URL'),
             'ping_url' => env('OPEN_WEB_UI_PING_URL'),
             'models' => require __DIR__ . env('OPEN_WEB_UI_MODEL_LIST_DIR', '/model_lists/openwebui_models.php'),
-        ]
+        ],
+        'blablador' => [
+            'active' => env('BLABLADOR_ACTIVE', true),
+            'adapter_key' => 'openai_like',
+            'api_key' => env('BLABLADOR_API_KEY'),
+            'api_url' => env('BLABLADOR_API_URL'),
+            'ping_url' => env('BLABLADOR_PING_URL'),
+            'models' => require __DIR__ . '/model_lists/blablador_models.php',
+],
     ]
 ];

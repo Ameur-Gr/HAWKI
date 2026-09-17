@@ -181,4 +181,9 @@ return [
             'temp' => env('MODELS_OPENAI_GPT5_6_SOL_PARAMS_TEMP', 1.0),
         ],
     ],
+
+    
+
+
+
 ];
