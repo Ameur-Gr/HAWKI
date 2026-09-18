@@ -3,7 +3,7 @@
 .env.backup
 .env.private
 .env.production
-
+hawki-secrets.env
 # Packages
 node_modules
 vendor
