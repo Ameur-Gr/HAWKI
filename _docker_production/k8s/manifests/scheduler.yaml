@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hawki-scheduler
+  namespace: hawki2-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hawki-scheduler
+  template:
+    metadata:
+      labels:
+        app: hawki-scheduler
+    spec:
+      automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: hawki-registry
+
+      containers:
+        - name: scheduler
+          image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.0
+
+          args:
+            - php
+            - artisan
+            - schedule:work
+
+          envFrom:
+            - secretRef:
+                name: hawki-secrets
+
+          env:
+            - name: APP_NAME
+              value: "HAWKI2"
+            - name: APP_ENV
+              value: "prod"
+            - name: APP_DEBUG
+              value: "0"
+            - name: APP_PROTOCOL
+              value: "https"
+            - name: APP_HOST
+              value: "test-c.blablador.fz-juelich.de"
+            - name: APP_TRUSTED_PROXIES
+              value: "*"
+            - name: ENVIRONMENT
+              value: "production"
+
+            - name: DB_CONNECTION
+              value: "mysql"
+            - name: DB_HOST
+              value: "mysql"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_DATABASE
+              value: "hawki1"
+            - name: DB_USERNAME
+              value: "hawki1"
+
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+
+            - name: QUEUE_CONNECTION
+              value: "database"
+            - name: CACHE_STORE
+              value: "database"
+
+          volumeMounts:
+            - name: hawki-storage
+              mountPath: /var/www/html/storage/app
+
+            - name: provider-config
+              mountPath: /var/www/html/config/model_providers.php
+              subPath: model_providers.php
+              readOnly: true
+
+            - name: model-lists
+              mountPath: /var/www/html/config/model_lists
+              readOnly: true
+
+      volumes:
+        - name: hawki-storage
+          persistentVolumeClaim:
+            claimName: hawki-storage
+
+        - name: provider-config
+          configMap:
+            name: hawki-provider-config
+
+        - name: model-lists
+          configMap:
+            name: hawki-model-lists

@@ -1,0 +1,102 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hawki-migrator
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+
+      imagePullSecrets:
+        - name: hawki-registry
+
+      containers:
+        - name: migrator
+          image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.0
+
+          envFrom:
+            - secretRef:
+                name: hawki-secrets
+
+          env:
+            - name: ENVIRONMENT
+              value: "migrate"
+
+            - name: APP_NAME
+              value: "HAWKI2"
+
+            - name: APP_ENV
+              value: "prod"
+
+            - name: APP_DEBUG
+              value: "0"
+
+            - name: APP_URL
+              value: "http://localhost"
+
+            - name: DOCKER_PROJECT_HOST
+              value: "localhost"
+
+            - name: DOCKER_PROJECT_PROTOCOL
+              value: "http"
+
+            - name: DB_CONNECTION
+              value: "mysql"
+
+            - name: DB_HOST
+              value: "mysql"
+
+            - name: DB_PORT
+              value: "3306"
+
+            - name: DB_DATABASE
+              value: "hawki1"
+
+            - name: DB_USERNAME
+              value: "hawki1"
+
+            - name: REDIS_HOST
+              value: "redis"
+
+            - name: REDIS_PORT
+              value: "6379"
+
+            - name: QUEUE_CONNECTION
+              value: "database"
+
+            - name: CACHE_STORE
+              value: "database"
+
+          volumeMounts:
+            - name: hawki-storage
+              mountPath: /var/www/html/storage/app
+
+            - name: logs
+              mountPath: /var/www/html/storage/logs
+
+            - name: provider-config
+              mountPath: /var/www/html/config/model_providers.php
+              subPath: model_providers.php
+              readOnly: true
+
+            - name: model-lists
+              mountPath: /var/www/html/config/model_lists
+              readOnly: true
+
+      volumes:
+        - name: hawki-storage
+          persistentVolumeClaim:
+            claimName: hawki-storage
+
+        - name: logs
+          emptyDir: {}
+
+        - name: provider-config
+          configMap:
+            name: hawki-provider-config
+
+        - name: model-lists
+          configMap:
+            name: hawki-model-lists

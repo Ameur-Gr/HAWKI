@@ -1,0 +1,170 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hawki-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hawki-app
+  template:
+    metadata:
+      labels:
+        app: hawki-app
+    spec:
+      automountServiceAccountToken: false
+
+      imagePullSecrets:
+        - name: hawki-registry
+
+      containers:
+        - name: app
+          image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.0
+
+          ports:
+            - containerPort: 80
+
+          envFrom:
+            - secretRef:
+                name: hawki-secrets
+            - configMapRef:
+                name: hawki-config
+
+          # env:
+          #   - name: APP_NAME
+          #     value: "HAWKI2"
+          #   - name: APP_ENV
+          #     value: "prod"
+          #   - name: APP_DEBUG
+          #     value: "0"
+
+          #   - name: APP_PROTOCOL
+          #     value: "https"
+          #   - name: APP_HOST
+          #     value: "test-c.blablador.fz-juelich.de"
+
+          #   - name: DOCKER_PROJECT_HOST
+          #     value: "hawki-app"
+          #   - name: DOCKER_PROJECT_PROTOCOL
+          #     value: "http"
+
+          #   - name: ENVIRONMENT
+          #     value: "production"
+
+          #   - name: DB_CONNECTION
+          #     value: "mysql"
+          #   - name: DB_HOST
+          #     value: "mysql"
+          #   - name: DB_PORT
+          #     value: "3306"
+          #   - name: DB_DATABASE
+          #     value: "hawki1"
+          #   - name: DB_USERNAME
+          #     value: "hawki1"
+
+          #   - name: REDIS_HOST
+          #     value: "redis"
+          #   - name: REDIS_PORT
+          #     value: "6379"
+
+          #   - name: QUEUE_CONNECTION
+          #     value: "database"
+          #   - name: CACHE_STORE
+          #     value: "database"
+          #   - name: APP_TRUSTED_PROXIES
+          #     value: "*"
+              
+          #   - name: AUTHENTICATION_METHOD
+          #     value: "OIDC"
+
+          #   - name: OIDC_IDP
+          #     value: "https://login.helmholtz.de/oauth2"
+            
+          #   - name: OIDC_LOGOUT_URI
+          #     value: "https://login.helmholtz.de/oauth2-as/oauth2-authz"
+          #   - name: OIDC_CLIENT_ID
+          #     value: "blablador"
+
+          #   - name: OIDC_CLIENT_SECRET
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: hawki-secrets
+          #         key: OIDC_CLIENT_SECRET
+
+          #   - name: OIDC_SCOPES
+          #     value: "email"
+
+          #   # - name: OIDC_PKCE_METHOD
+          #   #   value: "S256"
+
+          #   # - name: OIDC_USERNAME_VAR
+          #   #   value: "JSC"
+
+          #   # - name: OIDC_NAME_VAR
+          #   #   value: "JSC"
+
+          #   - name: OIDC_EMPLOYEETYPE_VAR
+          #     value: "name"
+
+          
+
+
+          volumeMounts:
+            - name: hawki-storage
+              mountPath: /var/www/html/storage/app
+
+            - name: logs
+              mountPath: /var/www/html/storage/logs
+
+            - name: provider-config
+              mountPath: /var/www/html/config/model_providers.php
+              subPath: model_providers.php
+              readOnly: true
+
+            - name: model-lists
+              mountPath: /var/www/html/config/model_lists
+              readOnly: true
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 6
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+      volumes:
+        - name: hawki-storage
+          persistentVolumeClaim:
+            claimName: hawki-storage
+
+        - name: logs
+          emptyDir: {}
+
+        - name: provider-config
+          configMap:
+            name: hawki-provider-config
+
+        - name: model-lists
+          configMap:
+            name: hawki-model-lists
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hawki-app
+spec:
+  selector:
+    app: hawki-app
+  ports:
+    - port: 80
+      targetPort: 80

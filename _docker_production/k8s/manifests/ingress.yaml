@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hawki-ingress
+  namespace: hawki2-ns
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-cluster"
+    traefik.ingress.kubernetes.io/forwarded-headers: "X-Forwarded-For,X-Real-IP"
+    traefik.ingress.kubernetes.io/proxy-buffering: "off"
+    traefik.ingress.kubernetes.io/proxy-request-buffering: "off"
+    traefik.ingress.kubernetes.io/response-forwarding.flush-interval: "100ms"
+    traefik.ingress.kubernetes.io/service.maxconn.amount: "100"
+    traefik.ingress.kubernetes.io/service.maxconn.duration: "3600s"
+    traefik.ingress.kubernetes.io/service.timeout: "3600s"
+spec:
+  ingressClassName: traefik
+
+  rules:
+    - host: test-c.blablador.fz-juelich.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hawki-app
+                port:
+                  number: 80
+
+  tls:
+    - hosts:
+        - test-c.blablador.fz-juelich.de
+      secretName: hawki2-blablador-tls

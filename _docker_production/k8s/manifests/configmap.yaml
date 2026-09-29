@@ -4,7 +4,7 @@ metadata:
   name: hawki-config
   namespace: hawki2-ns
 data:
-  APP_NAME: "HAWKI2"
+  APP_NAME: "Blablador"
   PROJECT_NAME: "hawki2"
 
   APP_ENV: "production"
@@ -12,8 +12,8 @@ data:
   APP_TIMEZONE: "CET"
   APP_LOCALE: "de_DE"
   APP_FALLBACK_LOCALE: "en_US"
-
-  APP_URL: "https://REPLACE_WITH_HAWKI_HOST"
+  ENVIRONMENT: "production"
+  # APP_URL: "https://test-c.blablador.fz-juelich.de"
 
   APP_MAINTENANCE_DRIVER: "cache"
   APP_MAINTENANCE_STORE: "database"
@@ -25,10 +25,10 @@ data:
   SESSION_DOMAIN: "null"
   SESSION_EXPIRE_ON_CLOSE: "true"
 
-  AI_MENTION_HANDLE: "hawki"
-  HAWKI_NAME: "HAWKI"
-  HAWKI_USERNAME: "HAWKI"
-  HAWKI_AVATAR: "hawkiAvatar.jpg"
+  AI_MENTION_HANDLE: "Blablador"
+  HAWKI_NAME: "Blablador"
+  HAWKI_USERNAME: "Blablador"
+  HAWKI_AVATAR: "blablador.svg"
 
   APP_SECURITY_PASSKEY_ALLOW_PASTE: "true"
   APP_SECURITY_PASSKEY_CHAR_LIMITATION: "true"
@@ -36,8 +36,8 @@ data:
   # AI
   OPENAI_ACTIVE: "false"
   BLABLADOR_ACTIVE: "true"
-  BLABLADOR_API_URL: "https://api.blablador.fz-juelich.de/v1"
-  BLABLADOR_PING_URL: "https://api.blablador.fz-juelich.de/v1/models"
+  BLABLADOR_API_URL: "http://llmstack-router-service.default.svc.cluster.local/v1"
+  BLABLADOR_PING_URL: "http://llmstack-router-service.default.svc.cluster.local/v1/models"
 
   DEFAULT_MODEL: "alias-fast"
   DEFAULT_WEBSEARCH_MODEL: "alias-huge"
@@ -49,12 +49,12 @@ data:
   SUMMARIZER_MODEL: "alias-fast"
 
   # File converter
-  FILE_CONVERTER: "hawki_converter"
-  HAWKI_FILE_CONVERTER_API_URL: "http://hawki-file-converter/extract"
+  # FILE_CONVERTER: "hawki_converter"
+  # HAWKI_FILE_CONVERTER_API_URL: "http://hawki-file-converter/extract"
 
   # Database
   DB_CONNECTION: "mysql"
-  DB_HOST: "hawki-mysql"
+  DB_HOST: "mysql"
   DB_PORT: "3306"
   DB_DATABASE: "hawki1"
   DB_USERNAME: "hawki1"
@@ -84,8 +84,13 @@ data:
   QUEUE_CONNECTION: "database"
 
   # Authentication
-  AUTHENTICATION_METHOD: "LDAP"
-  TEST_USER_LOGIN: "true"
+  AUTHENTICATION_METHOD: "OIDC"
+  TEST_USER_LOGIN: "false"
+  OIDC_IDP: "https://login.helmholtz.de/oauth2"
+  OIDC_LOGOUT_URI: "https://test-c.blablador.fz-juelich.de/login"
+  OIDC_CLIENT_ID: "blablador"
+  OIDC_SCOPES: "email,profile"
+  OIDC_EMPLOYEETYPE_VAR: "name"
 
   # External communication
   ALLOW_EXTERNAL_COMMUNICATION: "true"
@@ -96,5 +101,14 @@ data:
   CACHE_PREFIX: ""
 
   # Redis
-  REDIS_HOST: "hawki-redis"
+  REDIS_HOST: "redis"
   REDIS_PORT: "6379"
+
+  APP_TRUSTED_PROXIES: "*"
+
+  DOCKER_PROJECT_HOST: "hawki-app"
+  DOCKER_PROJECT_PROTOCOL: "http"
+
+
+  APP_PROTOCOL: "https"
+  APP_HOST: "test-c.blablador.fz-juelich.de"

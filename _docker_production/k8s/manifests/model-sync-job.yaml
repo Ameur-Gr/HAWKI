@@ -1,0 +1,261 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hawki-model-sync
+  namespace: hawki2-ns
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hawki-model-sync
+  namespace: hawki2-ns
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames:
+      - hawki-model-lists
+    verbs:
+      - get
+      - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hawki-model-sync
+  namespace: hawki2-ns
+subjects:
+  - kind: ServiceAccount
+    name: hawki-model-sync
+    namespace: hawki2-ns
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: hawki-model-sync
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hawki-model-sync-script
+  namespace: hawki2-ns
+data:
+  sync.sh: |
+    #!/bin/sh
+    set -eu
+
+    MODELS_URL="http://llmstack-router-service.default.svc.cluster.local/v1/models"
+    MODELS_JSON="/tmp/models.json"
+    MODELS_FILE="/tmp/blablador_models.php"
+
+    echo "Fetching models from Blablador..."
+
+    curl -sf "$MODELS_URL" -o "$MODELS_JSON"
+
+    echo "Parsing model list..."
+
+    php /scripts/generate-model-list.php \
+      "$MODELS_JSON" \
+      "$MODELS_FILE"
+
+    MODEL_COUNT="$(php /scripts/count-models.php "$MODELS_JSON")"
+
+    echo "Found $MODEL_COUNT models"
+
+    if [ "$MODEL_COUNT" -eq 0 ]; then
+      echo "ERROR: Blablador returned zero models. Not updating HAWKI."
+      exit 1
+    fi
+
+    echo "Generated model list:"
+    cat "$MODELS_FILE"
+
+    API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
+    TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+    CA="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+
+    echo "Creating ConfigMap patch..."
+
+    php /scripts/create-payload.php "$MODELS_FILE" > /tmp/payload.json
+
+    echo "Updating hawki-model-lists ConfigMap..."
+
+    curl -sf \
+      --cacert "$CA" \
+      -H "Authorization: Bearer $TOKEN" \
+      -H "Content-Type: application/merge-patch+json" \
+      -X PATCH \
+      "$API/api/v1/namespaces/hawki2-ns/configmaps/hawki-model-lists" \
+      -d @/tmp/payload.json
+
+    echo
+    echo "ConfigMap updated."
+
+    echo "Waiting for ConfigMap projection to refresh..."
+    sleep 10
+
+    echo "Preparing Laravel cache directories..."
+
+    mkdir -p \
+      /var/www/html/storage/framework/cache \
+      /var/www/html/storage/framework/sessions \
+      /var/www/html/storage/framework/views \
+      /var/www/html/storage/framework/testing \
+      /var/www/html/bootstrap/cache
+    echo "Running HAWKI config sync..."
+
+    php artisan config:clear
+    php artisan ai:config:sync --force
+
+    echo "HAWKI model synchronization completed."
+
+  count-models.php: |
+    <?php
+
+    $file = $argv[1];
+
+    $data = json_decode(
+        file_get_contents($file),
+        true,
+        512,
+        JSON_THROW_ON_ERROR
+    );
+
+    echo count($data['data'] ?? []);
+
+  generate-model-list.php: |
+    <?php
+
+    $input = $argv[1];
+    $output = $argv[2];
+
+    $data = json_decode(
+        file_get_contents($input),
+        true,
+        512,
+        JSON_THROW_ON_ERROR
+    );
+
+    $models = $data['data'] ?? [];
+
+    $result = "<?php\n\nreturn [\n";
+
+    foreach ($models as $model) {
+        $id = $model['id'] ?? null;
+
+        if (!$id) {
+            continue;
+        }
+
+        $result .= "    [\n";
+        $result .= "        'id' => " . var_export($id, true) . ",\n";
+        $result .= "        'tools' => [\n";
+        $result .= "            'tool_calling' => true,\n";
+        $result .= "            'file_upload' => true,\n";
+        $result .= "            'vision' => true,\n";
+        $result .= "            'native_capabilities' => true,\n";
+        $result .= "        ],\n";
+        $result .= "    ],\n";
+    }
+
+    $result .= "];\n";
+
+    file_put_contents($output, $result);
+
+  create-payload.php: |
+    <?php
+
+    $file = $argv[1];
+
+    $content = file_get_contents($file);
+
+    echo json_encode(
+        [
+            'data' => [
+                'blablador_models.php' => $content,
+            ],
+        ],
+        JSON_THROW_ON_ERROR
+    );
+
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hawki-model-sync
+  namespace: hawki2-ns
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+
+      template:
+        spec:
+          serviceAccountName: hawki-model-sync
+          automountServiceAccountToken: true
+          restartPolicy: Never
+
+          imagePullSecrets:
+            - name: hawki-registry
+
+          containers:
+            - name: model-sync
+              image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.0
+
+              command:
+                - /bin/sh
+                - /scripts/sync.sh
+
+              envFrom:
+                - secretRef:
+                    name: hawki-secrets
+                - configMapRef:
+                    name: hawki-config
+
+              volumeMounts:
+                - name: sync-script
+                  mountPath: /scripts
+                  readOnly: true
+
+                - name: model-lists
+                  mountPath: /var/www/html/config/model_lists
+                  readOnly: true
+
+                - name: provider-config
+                  mountPath: /var/www/html/config/model_providers.php
+                  subPath: model_providers.php
+                  readOnly: true
+                
+                - name: storage-app
+                  mountPath: /var/www/html/storage/app
+
+                - name: storage-logs
+                  mountPath: /var/www/html/storage/logs
+
+          volumes:
+            - name: sync-script
+              configMap:
+                name: hawki-model-sync-script
+                defaultMode: 0755
+
+            - name: model-lists
+              configMap:
+                name: hawki-model-lists
+
+            - name: provider-config
+              configMap:
+                name: hawki-provider-config
+            
+            - name: storage-app
+              emptyDir: {}
+
+            - name: storage-logs
+              emptyDir: {}
