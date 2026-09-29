@@ -4,18 +4,18 @@
             "title": "Abgelaufene Anfrage",
             "headline": "Deine Anfrage ist leider nicht mehr gültig.",
             "description": "Der Link dem du gefolgt bist ist nicht mehr gültig. Bitte starte die Anfrage erneut.",
-            "back_button": "Zurück zu HAWKI"
+            "back_button": "Zurück zu Blablador"
         },
         "confirm_error": {
             "title": "Es ist ein Fehler aufgetreten",
             "headline": "Fehler bei Verbindung mit externer Anwendung",
             "description": "Du wolltest dich mit einer externen Anwendung verbinden, aber es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
-            "back_button": "Zurück zu HAWKI"
+            "back_button": "Zurück zu Blablador"
         },
         "confirm": {
-            "title": ":appName mit HAWKI verbinden",
+            "title": ":appName mit Blablador verbinden",
             "headline": "Verbindung zu Anwendung \":appName\" zulassen?",
-            "description": "Hey :name! Du bist auf dieser Seite gelandet, weil die Anwendung \":appName\" sich mit deinem HAWKI Profil (:username) verbinden möchte. Damit erlaubst du der Anwendung Zugriff auf deine Nachrichten und Chats. Bitte gib nur Anwendungen Zugriff denen du vertraust.",
+            "description": "Hey :name! Du bist auf dieser Seite gelandet, weil die Anwendung \":appName\" sich mit deinem Blablador Profil (:username) verbinden möchte. Damit erlaubst du der Anwendung Zugriff auf deine Nachrichten und Chats. Bitte gib nur Anwendungen Zugriff denen du vertraust.",
             "about_headline": "Über die Anwendung:",
             "error_message": "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
             "working_message": "Bitte warte einen Moment, du wirst gleich weitergeleitet.",

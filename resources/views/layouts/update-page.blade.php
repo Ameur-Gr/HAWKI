@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAWKI IS UPDATING!</title>
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <title>Blablador IS UPDATING!</title>
+    <link rel="icon" href="{{ asset('favicon.png') }}">
     <x-css-layers/>
     <x-early-frontend-bridge/>
 </head>
@@ -12,9 +12,9 @@
 <div class="container">
     <div class="content">
         <img id="HAWK_logo" src="{{ asset('img/logo.svg')}}" alt="">
-        <h1>Welcome to HAWKI</h1>
+        <h1>Welcome to Blablador</h1>
         <img src="https://i.pinimg.com/originals/ed/77/47/ed7747ca797333eb6447917b803af306.gif" alt="">
-        <h2>We are updating HAWKI right now!<br>Please try again later :)</h2>
+        <h2>We are updating Blablador right now!<br>Please try again later :)</h2>
     </div>
 </div>
 

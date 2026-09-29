@@ -28,7 +28,7 @@ data:
   AI_MENTION_HANDLE: "Blablador"
   HAWKI_NAME: "Blablador"
   HAWKI_USERNAME: "Blablador"
-  HAWKI_AVATAR: "blablador.svg"
+  HAWKI_AVATAR: "blablador-icon.svg"
 
   APP_SECURITY_PASSKEY_ALLOW_PASTE: "true"
   APP_SECURITY_PASSKEY_CHAR_LIMITATION: "true"

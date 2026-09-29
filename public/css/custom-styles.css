@@ -93,14 +93,16 @@
 
 
     .logo {
-        /* adjust width and aspect ratio as needed */
-        width: 8rem !important;
-        /* Aaspect ration of HAWK logo */
-        aspect-ratio: 2.226/1 !important;
+    width: 15rem !important;
+    aspect-ratio: 2.226 / 1 !important;
 
-        background-image: url("/img/logo.png") !important;
-        background-size: cover !important;
-        background-repeat: no-repeat !important;
-        /* background-size: auto !important; */
+    background-image: url("/img/blablador-logo.png") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    }
+
+    .darkMode .logo {
+        filter: invert(1);
     }
 }

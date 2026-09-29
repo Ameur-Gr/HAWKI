@@ -42,11 +42,11 @@
         },
         "composer": {
             "textareaPlaceholder": "Enter your message here…",
-            "textareaPlaceholderRoom": "Write a group message or use the AI with @hawki...",
+            "textareaPlaceholderRoom": "Write a group message or use the AI with @blablador...",
             "attachFileTooltip": "Attach file",
             "assistantButtonTooltip": {
-                "addHandle": "Talk to HAWKI",
-                "removeHandle": "Stop talking to HAWKI"
+                "addHandle": "Talk to Blablador",
+                "removeHandle": "Stop talking to Blablador"
             },
             "systemPromptDialog": {
                 "title": "Edit system prompt",
@@ -105,8 +105,8 @@
                 "activateTool": "Activate tool",
                 "showGroupDescription": ":label — show description",
                 "capabilitiesLabel": "Capabilities",
-                "hawkiToolsLabel": "HAWKI Tools",
-                "hawkiToolsDescription": "Tools provided by HAWKI itself",
+                "hawkiToolsLabel": "Blablador Tools",
+                "hawkiToolsDescription": "Tools provided by Blablador",
                 "infoOffline": "(offline) | Click for more information",
                 "infoUnsupported": "(not supported by current model) | Click for more information",
                 "infoDefault": "Show more information about the tool",
@@ -117,8 +117,8 @@
                     "webFetchDescription": "This tool enables the AI to retrieve information from the internet. Unlike web search, the AI can also access external websites to extract and analyse content.",
                     "webSearch": "Web search",
                     "webSearchDescription": "This tool enables the AI to search the internet for current information. It can submit search queries and provide relevant results that feed into the AI's responses.",
-                    "knowledgeBase": "HAWKI Knowledge",
-                    "knowledgeBaseDescription": "This tool enables the AI to access an extensive knowledge base developed specifically for HAWKI. The data is provided by your university and contains information about courses, events, policies, and much more."
+                    "knowledgeBase": "Blablador Knowledge",
+                    "knowledgeBaseDescription": "This tool enables the AI to access an extensive knowledge base developed specifically for Blablador. The data is provided by your university and contains information about courses, events, policies, and much more."
                 }
             },
             "modelPicker": {

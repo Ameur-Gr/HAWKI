@@ -7,7 +7,7 @@
 
     <title>{{ env('APP_NAME') }}</title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('img/blablador-icon.svg') }}">
     <x-css-layers/>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/login_style.css') }}">

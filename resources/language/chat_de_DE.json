@@ -42,11 +42,11 @@
         },
         "composer": {
             "textareaPlaceholder": "Hier kannst du deine Anfrage stellen…",
-            "textareaPlaceholderRoom": "Schreibe eine Gruppennachricht oder nutze die KI mit @hawki...",
+            "textareaPlaceholderRoom": "Schreibe eine Gruppennachricht oder nutze die KI mit @blablador...",
             "attachFileTooltip": "Datei anhängen",
             "assistantButtonTooltip": {
-                "addHandle": "Mit HAWKI sprechen",
-                "removeHandle": "Nicht mehr mit HAWKI sprechen"
+                "addHandle": "Mit Blablador sprechen",
+                "removeHandle": "Nicht mehr mit Blablador sprechen"
             },
             "systemPromptDialog": {
                 "title": "Systemprompt bearbeiten",
@@ -105,8 +105,8 @@
                 "activateTool": "Tool aktivieren",
                 "showGroupDescription": ":label — Beschreibung anzeigen",
                 "capabilitiesLabel": "Fähigkeiten",
-                "hawkiToolsLabel": "HAWKI Tools",
-                "hawkiToolsDescription": "Tools, die von HAWKI selbst zur Verfügung gestellt werden",
+                "hawkiToolsLabel": "Blablador Tools",
+                "hawkiToolsDescription": "Tools, die von Blablador zur Verfügung gestellt werden",
                 "infoOffline": "(offline) | Klick für weitere Informationen",
                 "infoUnsupported": "(nicht von aktuellem Modell unterstützt) | Klick für weitere Informationen",
                 "infoDefault": "Weitere Informationen zum Tool anzeigen",
@@ -117,8 +117,8 @@
                     "webFetchDescription": "Dieses Tool ermöglicht es der KI, Informationen aus dem Internet abzurufen. Im Gegensatz zur Websuche kann die KI damit auch auf externe Webseiten zugreifen, um Inhalte zu extrahieren und zu analysieren.",
                     "webSearch": "Websuche",
                     "webSearchDescription": "Dieses Tool ermöglicht es der KI, das Internet zu durchsuchen, um aktuelle Informationen zu finden. Es kann Suchanfragen stellen und relevante Ergebnisse liefern, die in die Antworten der KI einfließen.",
-                    "knowledgeBase": "HAWKI-Wissen",
-                    "knowledgeBaseDescription": "Dieses Tool ermöglicht es der KI, auf eine umfangreiche Wissensdatenbank zuzugreifen, die speziell für HAWKI entwickelt wurde. Die Daten werden von deiner Hochschule zur Verfügung gestellt und enthalten Informationen zu Kursen, Veranstaltungen, Richtlinien und vielem mehr."
+                    "knowledgeBase": "Blablador-Wissen",
+                    "knowledgeBaseDescription": "Dieses Tool ermöglicht es der KI, auf eine umfangreiche Wissensdatenbank zuzugreifen, die speziell für Blablador entwickelt wurde. Die Daten werden von deiner Hochschule zur Verfügung gestellt und enthalten Informationen zu Kursen, Veranstaltungen, Richtlinien und vielem mehr."
                 }
             },
             "modelPicker": {

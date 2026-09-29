@@ -1494,7 +1494,7 @@ async function removeMemberFromRoom(username) {
     const hawkiUsername = window.getConfig().ai.hawkiUserUsername;
 
     if (username === hawkiUsername) {
-        console.error('You can not remove HAWKI from the Room!');
+        console.error('You can not remove Blablador from the Room!');
         return false;
     }
 

@@ -11,8 +11,8 @@
     @break
     
     @case('en_US')
-        <h1 class=\"headerLine\">HAWKI 2.0</h1>
-        <h3>We have further improved HAWKI for you!</h3>
+        <h1 class=\"headerLine\">Blablador</h1>
+        <h3>Welcome to Blablador!</h3>
         <p>
             <b>Functionality:</b>
         </p>
@@ -26,7 +26,7 @@
         <p>
             <b>Security Updates:</b>
         </p>
-        <p>We have made HAWKI more secure in some areas and updated the code structure.
+        <p>We have made Blablador more secure in some areas and updated the code structure.
             </p>
         <p>We thank Thorger Jansen (Discovery, Analysis, Coordination) from the 
             <a class=\"accentText\" target=\"_blank\" href=\"https://www.sec-consult.com\"><b>SEC Consult Vulnerability Lab</b></a> 

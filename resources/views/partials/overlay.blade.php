@@ -9,7 +9,7 @@
 >
     <div id="overlay-wrapper">
         <div id="overlay-logo">
-            <img src="{{ asset('img/logo.png') }}" alt="">
+            <img src="{{ asset('img/blablador-logo.svg') }}" alt="Blablador Logo">
         </div>  
     </div>
 </div>
