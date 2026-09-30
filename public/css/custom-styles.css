@@ -96,13 +96,23 @@
     width: 15rem !important;
     aspect-ratio: 2.226 / 1 !important;
 
-    background-image: url("/img/blablador-logo.png") !important;
+    background-image: url("/img/blablador-logo.svg") !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     }
 
     .darkMode .logo {
+        filter: invert(1);
+    }
+
+   #overlay-logo img {
+    width: 220px;
+    height: auto;
+    display: block;
+    }
+
+    .darkMode #overlay-logo img {
         filter: invert(1);
     }
 }
