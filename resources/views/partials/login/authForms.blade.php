@@ -23,3 +23,37 @@
                 name="submit">{{ __('Login') }}</button>
     </form>
 @endif
+
+<!-- @if($showLoginForm)
+    <form class="form-column" id="hawkiLoginForm">
+        @csrf
+
+        <div id="login-Button-panel">
+            <div id="login-message"></div>
+
+            <button id="loginButton"
+                    class="btn-lg-fill align-end top-gap-1"
+                    type="button"
+                    onclick="submitLogin()">
+                {{ __('Login') }}
+            </button>
+        </div>
+    </form>
+@else
+    <form class="form-column" method="post" id="hawkiLoginForm" action="/req/login">
+        @csrf
+
+        @if($errors->has('login_error'))
+            <div id="login-message">
+                {{ $errors->first('login_error') }}
+            </div>
+        @endif
+
+        <button id="loginButton"
+                class="btn-lg-fill align-end top-gap-1"
+                type="submit"
+                name="submit">
+            {{ __('Login') }}
+        </button>
+    </form>
+@endif -->

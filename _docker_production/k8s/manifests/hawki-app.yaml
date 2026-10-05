@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: app
-          image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.1
+          image: registry.jsc.fz-juelich.de/kaas/rke2-clusters/blablador/hawki:0.1.3
 
           ports:
             - containerPort: 80

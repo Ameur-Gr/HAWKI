@@ -4,6 +4,7 @@
 use App\Services\FileConverter\Handlers\GwdgDoclingConverter;
 use App\Services\FileConverter\Handlers\HawkiDocConverter;
 use App\Services\FileConverter\Handlers\KreuzbergConverter;
+use App\Services\FileConverter\Handlers\DoclingConverter;
 
 return [
 
@@ -45,6 +46,11 @@ return [
             'api_url' => env('KREUZBERG_FILE_CONVERTER_API_URL'),
             'class' => KreuzbergConverter::class,
             'timeout' => env('KREUZBERG_FILE_CONVERTER_TIMEOUT', 60),
+        ],
+        'docling' => [
+            'api_url' => env('DOCLING_API_URL','http://docling-serve:5001'),
+            'class' => DoclingConverter::class,
+            'timeout' => env('DOCLING_FILE_CONVERTER_TIMEOUT', 240),
         ]
     ]
 ];

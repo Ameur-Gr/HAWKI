@@ -10,8 +10,8 @@ data:
   APP_ENV: "production"
   APP_DEBUG: "false"
   APP_TIMEZONE: "CET"
-  APP_LOCALE: "de_DE"
-  APP_FALLBACK_LOCALE: "en_US"
+  APP_LOCALE: "en_US"
+  APP_FALLBACK_LOCALE: "de_DE"
   ENVIRONMENT: "production"
   # APP_URL: "https://test-c.blablador.fz-juelich.de"
 
@@ -112,3 +112,7 @@ data:
 
   APP_PROTOCOL: "https"
   APP_HOST: "test-c.blablador.fz-juelich.de"
+
+  FILE_CONVERTER: "docling"
+  DOCLING_API_URL: "http://docling-serve:5001"
+  DOCLING_FILE_CONVERTER_TIMEOUT: "240"

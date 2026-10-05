@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docling-serve
+  namespace: hawki2-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docling-serve
+  template:
+    metadata:
+      labels:
+        app: docling-serve
+    spec:
+      containers:
+        - name: docling
+          image: quay.io/docling-project/docling-serve
+          ports:
+            - containerPort: 5001
+          env:
+            - name: DOCLING_SERVE_ENABLE_API_DOCS
+              value: "true"
+            - name: DOCLING_SERVE_LOG_LEVEL
+              value: "INFO"
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+            limits:
+              cpu: "4"
+              memory: "8Gi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docling-serve
+  namespace: hawki2-ns
+spec:
+  selector:
+    app: docling-serve
+  ports:
+    - port: 5001
+      targetPort: 5001
