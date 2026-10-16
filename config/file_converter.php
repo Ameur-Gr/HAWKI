@@ -48,9 +48,9 @@ return [
             'timeout' => env('KREUZBERG_FILE_CONVERTER_TIMEOUT', 60),
         ],
         'docling' => [
-            'api_url' => env('DOCLING_API_URL','http://docling-serve:5001'),
+            'api_url' => env('DOCLING_API_URL', 'http://docling-serve:5001'),
             'class' => DoclingConverter::class,
             'timeout' => env('DOCLING_FILE_CONVERTER_TIMEOUT', 240),
-        ]
+        ],
     ]
 ];

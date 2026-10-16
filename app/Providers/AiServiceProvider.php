@@ -44,6 +44,7 @@ use App\Services\Ai\Providers\Adapters\Implementations\OllamaAdapter;
 use App\Services\Ai\Providers\Adapters\Implementations\OpenAiAdapter;
 use App\Services\Ai\Providers\Adapters\Implementations\OpenAiLikeAdapter;
 use App\Services\Ai\Providers\Adapters\Implementations\OpenRouterAdapter;
+use App\Services\Ai\Providers\Adapters\Implementations\BlabladorAdapter;
 use App\Services\Ai\Providers\Adapters\ProviderAdapterRegistry;
 use App\Services\Ai\Providers\Adapters\WellKnownAdapterKeys;
 use App\Services\Ai\Providers\AiProviderProxyResolver;
@@ -198,6 +199,7 @@ class AiServiceProvider extends ServiceProvider
                 ->declare(WellKnownAdapterKeys::AWS_BEDROCK, AwsBedrockAdapter::class)
                 ->declare(WellKnownAdapterKeys::GWDG, GwdgAdapter::class)
                 ->declare(WellKnownAdapterKeys::OPEN_ROUTER, OpenRouterAdapter::class)
+                ->declare('blablador', BlabladorAdapter::class)
         );
 
         $this->app->extend(

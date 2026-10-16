@@ -47,11 +47,7 @@ data:
   TITLE_GENERATOR_MODEL: "alias-fast"
   PROMPT_IMPROVEMENT_MODEL: "alias-fast"
   SUMMARIZER_MODEL: "alias-fast"
-
-  # File converter
-  # FILE_CONVERTER: "hawki_converter"
-  # HAWKI_FILE_CONVERTER_API_URL: "http://hawki-file-converter/extract"
-
+  
   # Database
   DB_CONNECTION: "mysql"
   DB_HOST: "mysql"

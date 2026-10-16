@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: docling
-          image: quay.io/docling-project/docling-serve
+          image: quay.io/docling-project/docling-serve-cpu:v1.37.0
           ports:
             - containerPort: 5001
           env:
@@ -23,13 +23,19 @@ spec:
               value: "true"
             - name: DOCLING_SERVE_LOG_LEVEL
               value: "INFO"
+            - name: DOCLING_SERVE_MAX_SYNC_WAIT
+              value: "900"
+            - name: DOCLING_DEBUG_PROFILE_PIPELINE_TIMINGS
+              value: "true"
+            - name: DOCLING_NUM_THREADS
+              value: "8"
           resources:
             requests:
-              cpu: "1"
-              memory: "2Gi"
+              cpu: "24"
+              memory: "32Gi"
             limits:
-              cpu: "4"
-              memory: "8Gi"
+              cpu: "32"
+              memory: "64Gi" 
 
 ---
 apiVersion: v1

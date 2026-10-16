@@ -24,7 +24,7 @@ return [
     'providers' => [
         'blablador' => [
             'active' => env('BLABLADOR_ACTIVE', true),
-            'adapter_key' => 'openai_like',
+            'adapter_key' => 'blablador',
             'api_key' => null,
             'api_url' => env('BLABLADOR_API_URL'),
             'ping_url' => env('BLABLADOR_PING_URL'),

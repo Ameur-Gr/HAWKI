@@ -96,20 +96,15 @@ class UserMessageAttachments
     private function registerPlainTextAttachment(FileInterface $file): self
     {
         if (!$this->context->model->input->hasText()) {
-            // This should never happen XD, otherwise, how is it reading this?
-            $this->addSkippedFileMessage($file, 'Model does not support text input');
+            $this->addSkippedFileMessage(
+                $file,
+                'Model does not support text input'
+            );
             return $this;
         }
 
-        if (!$this->context->provider->adapter->supportsFileAsAttachment($file)) {
-            $this->addInlinedAttachment($file);
-            return $this;
-        }
+        $this->addInlinedAttachment($file);
 
-        $this->referencedAttachments[] = Document::fromString(
-            content: $file->getContent(),
-            mimeType: $file->getMimeType(),
-        )->as($file->getOriginalFilename());
         return $this;
     }
 
